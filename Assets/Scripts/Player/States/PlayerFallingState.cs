@@ -24,7 +24,7 @@ namespace States
         {
             base.StateFixedUpdate();
 
-            Move(moveAction.ReadValue<float>(), playerSM.stats.AirSpeed, playerSM.stats.AirAcceleration, playerSM.stats.AirDecceleration, playerSM.stats.Jerk, playerSM.stats.MovementTargetTolerance);
+            AirMove();
         }
     }
 }

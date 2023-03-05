@@ -22,20 +22,29 @@ public class PlayerStats : ScriptableObject
 
     [SerializeField] private float _movementTargetTolerance;
     public float MovementTargetTolerance => _movementTargetTolerance;
+
+    [SerializeField] private float _overSpeedDeccel;
+    public float OverSpeedDecceleration => _overSpeedDeccel;
     #endregion
 
     #region air
     [Header("Air")]
 
-    [SerializeField] private float _airSpeed;
-    public float AirSpeed => _airSpeed;
+    [SerializeField] private float _airSpeedMultiplier;
+    public float AirSpeedMultiplier => _airSpeedMultiplier;
 
-    [SerializeField] private float _airAcceleration;
-    public float AirAcceleration => _airAcceleration;
+    [SerializeField] private float _airAccelerationMultiplier;
+    public float AirAccelerationMultiplier => _airAccelerationMultiplier;
 
-    [SerializeField] private float _airDecceleration;
-    public float AirDecceleration => _airDecceleration;
+    [SerializeField] private float _airDeccelerationMultiplier;
+    public float AirDeccelerationMultiplier => _airDeccelerationMultiplier;
 
+    [SerializeField] private float _airOverSpeedDeccelMultiplier;
+    public float AirOverSpeedDeccelerationMultiplier => _airOverSpeedDeccelMultiplier;
+
+    #endregion
+
+    #region Jump
     [SerializeField] private float _jumpHeight;
     public float JumpHeight => _jumpHeight;
 
@@ -44,5 +53,6 @@ public class PlayerStats : ScriptableObject
 
     [SerializeField] private float _jumpForgivenessTime;
     public float JumpForgivenessTime => _jumpForgivenessTime;
+
     #endregion
 }

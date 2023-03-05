@@ -1,0 +1,16 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using States;
+
+public class Pusher : MonoBehaviour
+{
+    [SerializeField] float force;
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if(collision.collider.TryGetComponent<PlayerStateMachine>(out PlayerStateMachine sm))
+        {
+            sm.GetComponent<Rigidbody2D>().AddForce(force * transform.up, ForceMode2D.Impulse);
+        }
+    }
+}

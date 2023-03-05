@@ -17,7 +17,7 @@ namespace States
             {
                 playerSM.ChangeState(new PlayerWalkingState(playerSM));
             }
-            else if(body.velocity.y < 0)
+            else if(body.velocity.y <= 0)
             {
                 playerSM.ChangeState(new PlayerFallingState(playerSM));
             }
@@ -27,15 +27,32 @@ namespace States
         {
             base.StateFixedUpdate();
 
-            Move(moveAction.ReadValue<float>(), playerSM.stats.AirSpeed, playerSM.stats.AirAcceleration,
-                playerSM.stats.AirDecceleration, playerSM.stats.Jerk, playerSM.stats.MovementTargetTolerance);
+            AirMove();
         }
 
         public override void StateEnter()
         {
             base.StateEnter();
 
-            body.AddForce((2 * playerSM.stats.JumpHeight / playerSM.stats.JumpTime) * Vector2.up, ForceMode2D.Impulse);
+            Jump();
+        }
+
+        private void Jump()
+        {
+            Vector2 additionalJumpVelocity;
+
+            try
+            {
+                additionalJumpVelocity = playerSM.GetComponentInParent<PlayerAttacher>().velocity;
+            }
+            catch //means player not on an attacher
+            {
+                additionalJumpVelocity = Vector2.zero;
+            }
+
+            body.AddForce(((2 * playerSM.stats.JumpHeight / playerSM.stats.JumpTime) * Vector2.up) + additionalJumpVelocity, ForceMode2D.Impulse);
+
+            playerSM.transform.parent = null;
         }
     }
 }

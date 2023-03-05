@@ -11,9 +11,14 @@ namespace States
         {
         }
 
-        protected override void Jump()
+        public override void StateEnter()
         {
-            base.Jump();
+            base.StateEnter();
+        }
+
+        protected override void JumpInput()
+        {
+            base.JumpInput();
 
             if(playerSM.grounded)
             {
@@ -34,11 +39,8 @@ namespace States
         {
             base.StateFixedUpdate();
 
-            if (!(Mathf.Abs(body.velocity.x) > playerSM.stats.Speed && Mathf.Sign(body.velocity.x) == Mathf.Sign(moveAction.ReadValue<float>())))
-            {
-                Move(moveAction.ReadValue<float>(), playerSM.stats.Speed, playerSM.stats.Acceleration, playerSM.stats.Decceleration, playerSM.stats.Jerk,
-                    playerSM.stats.MovementTargetTolerance);
-            }
+            Move(moveAction.ReadValue<float>(), playerSM.stats.Speed, playerSM.stats.Acceleration, playerSM.stats.Decceleration, playerSM.stats.Jerk,
+                playerSM.stats.MovementTargetTolerance, playerSM.stats.OverSpeedDecceleration);
         }
     }
 }

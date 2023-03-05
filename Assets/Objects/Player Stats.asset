@@ -17,9 +17,11 @@ MonoBehaviour:
   _jerk: 0.8
   _decceleration: 60
   _movementTargetTolerance: 0.25
-  _airSpeed: 7
-  _airAcceleration: 30
-  _airDecceleration: 30
+  _overSpeedDeccel: 30
+  _airSpeedMultiplier: 1
+  _airAccelerationMultiplier: 1
+  _airDeccelerationMultiplier: 0
+  _airOverSpeedDeccelMultiplier: 0
   _jumpHeight: 4
   _jumpTime: 0.2
   _jumpForgivenessTime: 0.0125
