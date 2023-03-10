@@ -10,11 +10,16 @@ namespace States
         protected PlayerStateMachine playerSM;
         protected PlayerInput input;
         protected Rigidbody2D body;
+        protected SpriteRenderer spriter;
+        protected Animator animator;
+
         public PlayerState(PlayerStateMachine _sm) : base(_sm)
         {
             playerSM = _sm;
-            input = playerSM.GetComponent<PlayerInput>();
-            body = playerSM.GetComponent<Rigidbody2D>();
+            input = playerSM.input;
+            body = playerSM.body;
+            spriter = playerSM.spriter;
+            animator = playerSM.animator;
         }
     }
 }

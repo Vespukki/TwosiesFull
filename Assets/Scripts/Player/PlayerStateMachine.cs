@@ -19,14 +19,17 @@ namespace States
 
         [SerializeField] private bool jumpFlagTemp;
 
-        private PlayerInput input;
-        private Rigidbody2D body;
+        [HideInInspector] public PlayerInput input;
+        [HideInInspector] public Rigidbody2D body;
+        [HideInInspector] public SpriteRenderer spriter;
+        [HideInInspector] public Animator animator;
 
         public delegate void inputDelegate();
         public static event inputDelegate OnJump;
 
         [HideInInspector] public List<Collider2D> grounders = new();
 
+        [HideInInspector] public bool facingRight;
         public PlayerAttacher AttachedTo => GetAttacher();
 
         private PlayerAttacher GetAttacher()
@@ -47,6 +50,8 @@ namespace States
 
             input = GetComponent<PlayerInput>();
             body = GetComponent<Rigidbody2D>();
+            spriter = GetComponent<SpriteRenderer>();
+            animator = GetComponent<Animator>();
 
             input.actions.FindAction("Jump").started += ((InputAction.CallbackContext c) => OnJump?.Invoke());
         }
@@ -68,6 +73,8 @@ namespace States
                 jumpFlagTemp = false;
                 ChangeState(new PlayerJumpingState(this));
             }
+
+            spriter.flipX = facingRight;
         }
 
         protected override void FixedUpdate()

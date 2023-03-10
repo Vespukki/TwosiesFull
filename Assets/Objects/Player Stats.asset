@@ -23,5 +23,5 @@ MonoBehaviour:
   _airDeccelerationMultiplier: 0
   _airOverSpeedDeccelMultiplier: 0
   _jumpHeight: 4
-  _jumpTime: 0.2
+  _jumpTime: 0.3
   _jumpForgivenessTime: 0.0125

@@ -35,6 +35,14 @@ namespace States
             }
         }
 
+        protected override void SetAnimation()
+        {
+            base.SetAnimation();
+
+            var state = moveAction.ReadValue<float>() == 0 ? IDLE_ANIM : WALK_ANIM;
+            playerSM.animator.CrossFade(state, 0);
+        }
+
         public override void StateFixedUpdate()
         {
             base.StateFixedUpdate();

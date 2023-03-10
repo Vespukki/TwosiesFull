@@ -37,6 +37,13 @@ namespace States
             Jump();
         }
 
+        protected override void SetAnimation()
+        {
+            base.SetAnimation();
+
+            playerSM.animator.CrossFade(JUMP_ANIM, 0);
+        }
+
         private void Jump()
         {
             Vector2 additionalJumpVelocity;

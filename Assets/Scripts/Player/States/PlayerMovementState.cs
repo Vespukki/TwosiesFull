@@ -7,7 +7,16 @@ namespace States
 {
     public abstract class PlayerMovementState : PlayerState
     {
+        #region animation hashes
+        protected static readonly int IDLE_ANIM = Animator.StringToHash("Idle");
+        protected static readonly int WALK_ANIM = Animator.StringToHash("Walk");
+        protected static readonly int FALL_ANIM = Animator.StringToHash("Fall");
+        protected static readonly int JUMP_ANIM = Animator.StringToHash("Jump");
+
+        #endregion
+
         protected InputAction moveAction;
+        protected bool canTurn = true;
 
         public PlayerMovementState(PlayerStateMachine _sm) : base(_sm)
         {
@@ -38,12 +47,21 @@ namespace States
             
         }
 
+        protected virtual void SetAnimation()
+        {
+
+        }
+
         public override void StateFixedUpdate()
         {
             base.StateFixedUpdate();
+        }
 
+        public override void StateUpdate()
+        {
+            base.StateUpdate();
 
-            //AttachPlayer();
+            SetAnimation();
         }
 
         protected void Move(float input, float speed, float acceleration,float decceleration, float jerk, 
@@ -73,6 +91,11 @@ namespace States
                 float movement = Mathf.Pow(Mathf.Abs(speedDiff) * accelRate, jerk) * Mathf.Sign(speedDiff);
 
                 body.AddForce(movement * Vector2.right);
+
+                if(canTurn && targetSpeed != 0)
+                {
+                    playerSM.facingRight = input < 0;
+                }
             }
         }
     }

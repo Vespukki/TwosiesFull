@@ -20,6 +20,14 @@ namespace States
             }
         }
 
+        protected override void SetAnimation()
+        {
+            base.SetAnimation();
+
+            playerSM.animator.CrossFade(FALL_ANIM, 0);
+        }
+
+
         public override void StateFixedUpdate()
         {
             base.StateFixedUpdate();
