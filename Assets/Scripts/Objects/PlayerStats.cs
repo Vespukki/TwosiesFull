@@ -45,6 +45,8 @@ public class PlayerStats : ScriptableObject
     #endregion
 
     #region Jump
+    [Header("Jump")]
+
     [SerializeField] private float _jumpHeight;
     public float JumpHeight => _jumpHeight;
 

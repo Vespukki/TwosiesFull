@@ -29,6 +29,9 @@ namespace States
 
         [HideInInspector] public List<Collider2D> grounders = new();
 
+        [HideInInspector] public List<IJumpModifier> jumpModifiers = new();
+        [HideInInspector] public List<IMovementModifier> movementModifiers = new();
+
         [HideInInspector] public bool facingRight;
         public PlayerAttacher AttachedTo => GetAttacher();
 

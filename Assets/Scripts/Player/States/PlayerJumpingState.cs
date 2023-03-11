@@ -46,15 +46,11 @@ namespace States
 
         private void Jump()
         {
-            Vector2 additionalJumpVelocity;
+            Vector2 additionalJumpVelocity = Vector2.zero;
 
-            try
+            foreach(var modifier in playerSM.jumpModifiers)
             {
-                additionalJumpVelocity = playerSM.GetComponentInParent<PlayerAttacher>().velocity;
-            }
-            catch //means player not on an attacher
-            {
-                additionalJumpVelocity = Vector2.zero;
+                additionalJumpVelocity += playerSM.GetComponentInParent<PlayerAttacher>().JumpModifierVelocity;
             }
 
             body.AddForce(((2 * playerSM.stats.JumpHeight / playerSM.stats.JumpTime) * Vector2.up) + additionalJumpVelocity, ForceMode2D.Impulse);

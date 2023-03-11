@@ -30,8 +30,9 @@ namespace States
         {
             base.TryTransitions();
 
-            if (moveAction.ReadValue<float>() == 0)
+            if(!playerSM.grounded)
             {
+                playerSM.ChangeState(new PlayerFallingState(playerSM));
             }
         }
 

@@ -4,10 +4,11 @@ using UnityEngine;
 using States;
 
 [RequireComponent(typeof(BoxCollider2D))]
-public class PlayerAttacher : MonoBehaviour
+public class PlayerAttacher : MonoBehaviour, IJumpModifier
 {
     Vector3 previousPos;
-    [HideInInspector] public Vector3 velocity;
+    [SerializeField] private Vector3 velocity;
+    public Vector2 JumpModifierVelocity => velocity;
 
     public AttachableWith attachable;
 
@@ -29,6 +30,7 @@ public class PlayerAttacher : MonoBehaviour
             sm.transform.parent = transform;
 
             sm.GetComponent<Rigidbody2D>().velocity = new Vector2(0, sm.GetComponent<Rigidbody2D>().velocity.y);
+            sm.jumpModifiers.Add(this);
         }
     }
 
@@ -37,7 +39,7 @@ public class PlayerAttacher : MonoBehaviour
         if (collision.collider.TryGetComponent<PlayerStateMachine>(out PlayerStateMachine sm))
         {
             sm.transform.parent = null;
-            Debug.Log("unattach");
+            sm.jumpModifiers.Remove(this);
         }
     }
 }
@@ -46,7 +48,7 @@ public class PlayerAttacher : MonoBehaviour
 [System.Flags]
 public enum AttachableWith
 {
-    grounded = 1, //01
-    wallCling = 2, //10
+    grounded = 1, //001
+    wallCling = 2, //010
     //next should be = 4 (100)
 }
