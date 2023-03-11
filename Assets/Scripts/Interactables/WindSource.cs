@@ -10,7 +10,7 @@ namespace Twosies.Physics
         [SerializeField] private LayerMask interactableLayers;
         private List<Rigidbody2D> affectedList = new();
 
-        [SerializeField] private Vector2 force;
+        [SerializeField] private float force;
         [SerializeField] private float drag;
 
         private BoxCollider2D coll;
@@ -34,18 +34,20 @@ namespace Twosies.Physics
 
         private void FixedUpdate()
         {
-            //appliedForce = Mathf.Lerp(0, force.magnitude, );
-
-
             foreach(var body in affectedList)
             {
                 float forceMult = Mathf.InverseLerp(coll.bounds.center.y + coll.bounds.extents.y, coll.bounds.center.y - coll.bounds.extents.y,
                     body.transform.position.y);
 
-                Vector2 appliedForce = force * forceMult;
+                Vector2 appliedForce = force * forceMult * transform.up;
                 body.AddForce(appliedForce);
 
-                if(body.velocity.y < 0)
+                Vector2 a = (body.velocity * transform.up).normalized;
+                Vector2 b = (a + (Vector2)transform.up);
+
+                bool goingSameWayAsAir = (b == Vector2.zero);
+                Debug.Log(goingSameWayAsAir);
+                if (goingSameWayAsAir)
                 {
                     body.velocity = new Vector2(body.velocity.x, body.velocity.y * (1 - drag));
                 }
@@ -68,13 +70,5 @@ namespace Twosies.Physics
             return interactableLayers == (interactableLayers | (1 << layer));
         }
 
-
-
-        private void OnDrawGizmos()
-        {
-            Gizmos.color = Color.cyan;
-
-            //Gizmos.DrawSphere(coll.bounds.center.y + coll.bounds.extents.y, coll.bounds.center.y + coll)
-        }
     }
 }
