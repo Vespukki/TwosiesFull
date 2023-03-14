@@ -20,7 +20,7 @@ MonoBehaviour:
   _overSpeedDeccel: 30
   _airSpeedMultiplier: 1
   _airAccelerationMultiplier: 1
-  _airDeccelerationMultiplier: 0
+  _airDeccelerationMultiplier: 0.1
   _airOverSpeedDeccelMultiplier: 0
   _jumpHeight: 4
   _jumpTime: 0.3

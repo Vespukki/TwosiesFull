@@ -12,8 +12,10 @@ namespace States
         protected static readonly int WALK_ANIM = Animator.StringToHash("Walk");
         protected static readonly int FALL_ANIM = Animator.StringToHash("Fall");
         protected static readonly int JUMP_ANIM = Animator.StringToHash("Jump");
-
         #endregion
+
+
+        public bool canUseItem = true;
 
         protected InputAction moveAction;
         protected bool canTurn = true;
@@ -21,6 +23,19 @@ namespace States
         public PlayerMovementState(PlayerStateMachine _sm) : base(_sm)
         {
             moveAction = input.actions.FindAction("Move");
+        }
+
+        protected virtual void UseItem()
+        {
+            if(canUseItem)
+            {
+                playerSM.currentItem.Use(playerSM);
+            }
+        }
+
+        protected virtual void UnUseItem()
+        {  
+            playerSM.currentItem.UnUse(playerSM);
         }
 
         protected virtual void SetGravity()
@@ -33,6 +48,8 @@ namespace States
             base.StateEnter();
             SetGravity();
             PlayerStateMachine.OnJump += JumpInput;
+            PlayerStateMachine.OnUseItem += UseItem;
+            PlayerStateMachine.OnUnUseItem += UnUseItem;
         }
 
         public override void StateExit()
@@ -40,6 +57,8 @@ namespace States
             base.StateExit();
 
             PlayerStateMachine.OnJump -= JumpInput;
+            PlayerStateMachine.OnUseItem -= UseItem;
+            PlayerStateMachine.OnUnUseItem -= UnUseItem;
         }
 
         protected virtual void JumpInput()

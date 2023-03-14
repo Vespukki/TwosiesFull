@@ -13,6 +13,7 @@ namespace States
         protected SpriteRenderer spriter;
         protected Animator animator;
 
+
         public PlayerState(PlayerStateMachine _sm) : base(_sm)
         {
             playerSM = _sm;

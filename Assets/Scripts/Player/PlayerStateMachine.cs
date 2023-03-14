@@ -26,11 +26,14 @@ namespace States
 
         public delegate void inputDelegate();
         public static event inputDelegate OnJump;
+        public static event inputDelegate OnUseItem;
+        public static event inputDelegate OnUnUseItem;
 
         [HideInInspector] public List<Collider2D> grounders = new();
 
         [HideInInspector] public List<IJumpModifier> jumpModifiers = new();
-        [HideInInspector] public List<IMovementModifier> movementModifiers = new();
+
+        public ItemBase currentItem;
 
         [HideInInspector] public bool facingRight;
         public PlayerAttacher AttachedTo => GetAttacher();
@@ -57,6 +60,10 @@ namespace States
             animator = GetComponent<Animator>();
 
             input.actions.FindAction("Jump").started += ((InputAction.CallbackContext c) => OnJump?.Invoke());
+            input.actions.FindAction("Use Item").started += ((InputAction.CallbackContext c) => OnUseItem?.Invoke());
+            input.actions.FindAction("Use Item").canceled += ((InputAction.CallbackContext c) => OnUnUseItem?.Invoke());
+
+            currentItem = new Parachute(this);
         }
 
         protected override void Start()

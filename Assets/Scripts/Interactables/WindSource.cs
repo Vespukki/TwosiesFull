@@ -46,7 +46,6 @@ namespace Twosies.Physics
                 Vector2 b = (a + (Vector2)transform.up);
 
                 bool goingSameWayAsAir = (b == Vector2.zero);
-                Debug.Log(goingSameWayAsAir);
                 if (goingSameWayAsAir)
                 {
                     body.velocity = new Vector2(body.velocity.x, body.velocity.y * (1 - drag));
