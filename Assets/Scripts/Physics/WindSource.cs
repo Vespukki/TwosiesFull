@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Twosies.Interactables
+namespace Twosies.Physics
 {
     [RequireComponent(typeof(BoxCollider2D))]
     public class WindSource : MonoBehaviour

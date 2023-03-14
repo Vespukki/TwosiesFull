@@ -4,7 +4,7 @@ using UnityEngine;
 using Twosies.States.Player;
 using Twosies.Player.Movement;
 
-namespace Twosies.Interactables
+namespace Twosies.Physics
 {
 [RequireComponent(typeof(BoxCollider2D))]
 public class PlayerAttacher : MonoBehaviour, IJumpModifier

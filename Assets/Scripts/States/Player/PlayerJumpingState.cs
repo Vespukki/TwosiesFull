@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Twosies.Interactables;
+using Twosies.Physics;
 
 namespace Twosies.States.Player
 {

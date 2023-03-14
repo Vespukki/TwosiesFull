@@ -14,28 +14,14 @@ namespace Twosies.States.Player
         protected static readonly int JUMP_ANIM = Animator.StringToHash("Jump");
         #endregion
 
-
-        public bool canUseItem = true;
-
         protected InputAction moveAction;
         protected bool canTurn = true;
+
+        protected bool canInteract = true;
 
         public PlayerMovementState(PlayerStateMachine _sm) : base(_sm)
         {
             moveAction = input.actions.FindAction("Move");
-        }
-
-        protected virtual void UseItem()
-        {
-            if(canUseItem)
-            {
-                playerSM.currentItem.Use(playerSM);
-            }
-        }
-
-        protected virtual void UnUseItem()
-        {  
-            playerSM.currentItem.UnUse(playerSM);
         }
 
         protected virtual void SetGravity()
@@ -48,8 +34,7 @@ namespace Twosies.States.Player
             base.StateEnter();
             SetGravity();
             PlayerStateMachine.OnJump += JumpInput;
-            PlayerStateMachine.OnUseItem += UseItem;
-            PlayerStateMachine.OnUnUseItem += UnUseItem;
+            PlayerStateMachine.OnInteract += InteractInput;
         }
 
         public override void StateExit()
@@ -57,9 +42,18 @@ namespace Twosies.States.Player
             base.StateExit();
 
             PlayerStateMachine.OnJump -= JumpInput;
-            PlayerStateMachine.OnUseItem -= UseItem;
-            PlayerStateMachine.OnUnUseItem -= UnUseItem;
+            PlayerStateMachine.OnInteract -= InteractInput;
         }
+
+        protected virtual void InteractInput()
+        {
+            if(canInteract && playerSM.targetedInteractable != null)
+            {
+                playerSM.targetedInteractable.Interact(playerSM);
+            }
+        }
+
+       
 
         protected virtual void JumpInput()
         {

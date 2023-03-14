@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Twosies.States.Player;
 
-namespace Twosies.Interactables
+namespace Twosies.Physics
 {
 public class Pusher : MonoBehaviour
 {
