@@ -1,8 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using States;
+using Twosies.States.Player;
 
+namespace Twosies.Interactables
+{
 public class Pusher : MonoBehaviour
 {
     [SerializeField] float force;
@@ -13,4 +15,5 @@ public class Pusher : MonoBehaviour
             sm.GetComponent<Rigidbody2D>().AddForce(force * transform.up, ForceMode2D.Impulse);
         }
     }
+}
 }

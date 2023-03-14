@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+namespace Twosies.Player.Movement
+{
 [CreateAssetMenu]
 public class PlayerStats : ScriptableObject
 {
@@ -57,4 +59,5 @@ public class PlayerStats : ScriptableObject
     public float JumpForgivenessTime => _jumpForgivenessTime;
 
     #endregion
+}
 }

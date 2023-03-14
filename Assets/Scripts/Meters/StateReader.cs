@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-using States;
+using Twosies.States.Player;
 
-namespace DebugMeter
+namespace Twosies.Meters
 {
     public class StateReader : MonoBehaviour
     {

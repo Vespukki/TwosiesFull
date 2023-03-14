@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Twosies.Interactables;
 
-namespace States
+namespace Twosies.States.Player
 {
     public class PlayerJumpingState : PlayerAirState
     {

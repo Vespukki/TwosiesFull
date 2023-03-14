@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Twosies.States;
 
-namespace States
+namespace Twosies.States.Player
 {
     public class PlayerState : BaseState
     {

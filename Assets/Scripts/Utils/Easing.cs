@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Utilities
+namespace Twosies.Utils
 {
 
     public static class Easing

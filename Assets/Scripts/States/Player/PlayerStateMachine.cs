@@ -2,8 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Twosies.Player.Movement;
+using Twosies.Player.Items;
+using Twosies.Interactables;
 
-namespace States
+namespace Twosies.States.Player
 {
     [RequireComponent(typeof(PlayerInput))]
     [RequireComponent(typeof(Rigidbody2D))]

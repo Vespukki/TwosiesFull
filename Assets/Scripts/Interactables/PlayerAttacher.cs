@@ -1,8 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using States;
+using Twosies.States.Player;
+using Twosies.Player.Movement;
 
+namespace Twosies.Interactables
+{
 [RequireComponent(typeof(BoxCollider2D))]
 public class PlayerAttacher : MonoBehaviour, IJumpModifier
 {
@@ -51,4 +54,5 @@ public enum AttachableWith
     grounded = 1, //001
     wallCling = 2, //010
     //next should be = 4 (100)
+}
 }

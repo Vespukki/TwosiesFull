@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-namespace States
+namespace Twosies.States.Player
 {
     public class PlayerAirState : PlayerMovementState
     {

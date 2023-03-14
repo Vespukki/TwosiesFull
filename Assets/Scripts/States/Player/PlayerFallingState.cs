@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace States
+namespace Twosies.States.Player
 {
     public class PlayerFallingState : PlayerAirState
     {

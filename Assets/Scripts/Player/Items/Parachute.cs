@@ -1,8 +1,10 @@
-using States;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Twosies.States.Player;
 
+namespace Twosies.Player.Items
+{
 public class Parachute : ItemBase
 {
     public Parachute(PlayerStateMachine player) : base(player)
@@ -22,4 +24,5 @@ public class Parachute : ItemBase
         player.body.mass = 1;
     }
 
+}
 }

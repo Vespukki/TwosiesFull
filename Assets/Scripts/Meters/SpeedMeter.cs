@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using Twosies.Player.Movement;
 
-namespace DebugMeter
+namespace Twosies.Meters
 {
     public class SpeedMeter : MonoBehaviour
     {
