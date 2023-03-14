@@ -2,62 +2,70 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Twosies.States;
 
-namespace Twosies.States.Player
+namespace Twosies.States
 {
-    public abstract class PlayerMovementState : PlayerState
+    public class PlayerState : BaseState
     {
-        #region animation hashes
-        protected static readonly int IDLE_ANIM = Animator.StringToHash("Idle");
-        protected static readonly int WALK_ANIM = Animator.StringToHash("Walk");
-        protected static readonly int FALL_ANIM = Animator.StringToHash("Fall");
-        protected static readonly int JUMP_ANIM = Animator.StringToHash("Jump");
-        #endregion
+        protected InputStateMachine inputSM;
+        protected PlayerInput input;
+        protected Rigidbody2D body;
+        protected SpriteRenderer spriter;
+        protected Animator animator;
+
+
+        public PlayerState(InputStateMachine _sm) : base(_sm)
+        {
+            inputSM = _sm;
+            input = inputSM.input;
+            body = inputSM.body;
+            spriter = inputSM.spriter;
+            animator = inputSM.animator;
+
+            moveAction = input.actions.FindAction("Move");
+
+        }
 
         protected InputAction moveAction;
         protected bool canTurn = true;
 
         protected bool canInteract = true;
 
-        public PlayerMovementState(PlayerStateMachine _sm) : base(_sm)
-        {
-            moveAction = input.actions.FindAction("Move");
-        }
-
         protected virtual void SetGravity()
         {
-            body.gravityScale = (2 * playerSM.stats.JumpHeight) / (playerSM.stats.JumpTime * playerSM.stats.JumpTime);
+            body.gravityScale = (2 * inputSM.stats.JumpHeight) / (inputSM.stats.JumpTime * inputSM.stats.JumpTime);
         }
 
         public override void StateEnter()
         {
             base.StateEnter();
             SetGravity();
-            PlayerStateMachine.OnJump += JumpInput;
-            PlayerStateMachine.OnInteract += InteractInput;
+            InputStateMachine.OnJump += JumpInput;
+            InputStateMachine.OnInteract += InteractInput;
         }
 
         public override void StateExit()
         {
             base.StateExit();
 
-            PlayerStateMachine.OnJump -= JumpInput;
-            PlayerStateMachine.OnInteract -= InteractInput;
+            InputStateMachine.OnJump -= JumpInput;
+            InputStateMachine.OnInteract -= InteractInput;
         }
 
         protected virtual void InteractInput()
         {
-            if(canInteract && playerSM.targetedInteractable != null)
+            if (canInteract && inputSM.targetedInteractable != null)
             {
-                playerSM.targetedInteractable.Interact(playerSM);
+                inputSM.targetedInteractable.Interact(inputSM);
             }
         }
 
-       
+
 
         protected virtual void JumpInput()
         {
-            
+
         }
 
         protected virtual void SetAnimation()
@@ -77,7 +85,7 @@ namespace Twosies.States.Player
             SetAnimation();
         }
 
-        protected void Move(float input, float speed, float acceleration,float decceleration, float jerk, 
+        protected void Move(float input, float speed, float acceleration, float decceleration, float jerk,
             float targetTolerance, float overSpeedDecceleration) //moves x only
         {
             float targetSpeed = input * speed; //dir to move in at speed
@@ -85,7 +93,7 @@ namespace Twosies.States.Player
             float speedDiff = targetSpeed - body.velocity.x; //diff between current and desired
 
 
-            if(Mathf.Abs(targetSpeed) - targetTolerance <= Mathf.Abs(body.velocity.x) && Mathf.Abs(body.velocity.x) <= Mathf.Abs(targetSpeed) + targetTolerance
+            if (Mathf.Abs(targetSpeed) - targetTolerance <= Mathf.Abs(body.velocity.x) && Mathf.Abs(body.velocity.x) <= Mathf.Abs(targetSpeed) + targetTolerance
                 && Mathf.Abs(body.velocity.x) != Mathf.Abs(targetSpeed))
             {
                 body.velocity = new Vector2(targetSpeed, body.velocity.y);
@@ -105,12 +113,11 @@ namespace Twosies.States.Player
 
                 body.AddForce(movement * Vector2.right);
 
-                if(canTurn && targetSpeed != 0)
+                if (canTurn && targetSpeed != 0)
                 {
-                    playerSM.facingRight = input < 0;
+                    inputSM.facingRight = input < 0;
                 }
             }
         }
     }
-
 }
