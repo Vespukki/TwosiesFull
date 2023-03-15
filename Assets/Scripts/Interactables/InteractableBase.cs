@@ -8,6 +8,11 @@ namespace Twosies.Interactable
 {
     public abstract class InteractableBase : MonoBehaviour
     {
+        public virtual bool CanHighlight()
+        {
+            return true;
+        }
+
         [SerializeField] TextMeshPro hightlightText;
 
         public virtual void Interact(InputStateMachine player)

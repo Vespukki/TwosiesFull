@@ -5,10 +5,12 @@ using UnityEngine.InputSystem;
 using Twosies.Player.Movement;
 using Twosies.Physics;
 using Twosies.Interactable;
+using Twosies.Player;
+using Twosies.Interactable.Possessable;
 
 namespace Twosies.States
 {
-    public class InputStateMachine : StateMachine
+    public abstract class InputStateMachine : StateMachine
     {
         public delegate void inputDelegate();
         public static event inputDelegate OnJump;
@@ -41,17 +43,19 @@ namespace Twosies.States
         private bool groundable = true;
         private bool canInteract = true;
 
+        public PlayerSoul soul;
+
         protected override void Awake()
         {
             base.Awake(); 
             
-            input = GetComponent<PlayerInput>();
             body = GetComponent<Rigidbody2D>();
             spriter = GetComponent<SpriteRenderer>();
             animator = GetComponent<Animator>();
 
-            input.actions.FindAction("Jump").started += ((InputAction.CallbackContext c) => OnJump?.Invoke());
-            input.actions.FindAction("Interact").started += ((InputAction.CallbackContext c) => OnInteract?.Invoke());
+            
+
+            
         }
 
         private PlayerAttacher GetAttacher()
@@ -106,6 +110,8 @@ namespace Twosies.States
 
             foreach (var interactable in interactables)
             {
+                if (!interactable.CanHighlight()) continue;
+
                 float tempDist = Vector2.Distance(transform.position, interactable.transform.position);
                 if (tempDist < closestDist)
                 {
@@ -132,6 +138,15 @@ namespace Twosies.States
                     newInteractable.SetHighlight(true);
                 }
                 targetedInteractable = newInteractable;
+            }
+        }
+
+        protected override void Start()
+        {
+            base.Start();
+            if(soul != null)
+            {
+                OnSoulEnter(soul);
             }
         }
 
@@ -165,15 +180,35 @@ namespace Twosies.States
             return contacts;
         }
 
+        public virtual void OnSoulEnter(PlayerSoul newSoul)
+        {
+            soul = newSoul;
 
+            if (soul != null)
+            {
+                input = soul.GetComponent<PlayerInput>();
+                input.actions.FindAction("Jump").started += ((InputAction.CallbackContext c) => OnJump?.Invoke());
+                input.actions.FindAction("Interact").started += ((InputAction.CallbackContext c) => OnInteract?.Invoke());
+            }
+        }
+
+        public virtual void OnSoulExit()
+        {
+            ChangeState(null);
+        }
 
         private void OnDrawGizmos()
         {
-            Gizmos.color = Color.grey;
-            Gizmos.DrawWireCube(groundedBoxPoint.position, groundedBoxSize);
-
-            Gizmos.color = Color.yellow;
-            Gizmos.DrawWireCube(transform.position, interactBoxSize);
+            if(groundedBoxPoint != null && groundedBoxSize.x != 0 && groundedBoxSize.y != 0)
+            {
+                Gizmos.color = Color.grey;
+                Gizmos.DrawWireCube(groundedBoxPoint.position, groundedBoxSize);
+            }
+            if(interactBoxSize.x != 0 && interactBoxSize.y != 0)
+            {
+                Gizmos.color = Color.yellow;
+                Gizmos.DrawWireCube(transform.position, interactBoxSize);
+            }
         }
     }
 }
