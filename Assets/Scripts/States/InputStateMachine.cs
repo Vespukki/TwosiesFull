@@ -40,8 +40,8 @@ namespace Twosies.States
 
         internal InteractableBase targetedInteractable;
 
-        private bool groundable = true;
-        private bool canInteract = true;
+        [System.NonSerialized] public bool groundable = true;
+        [System.NonSerialized] public bool canInteract = false;
 
         public PlayerSoul soul;
 
@@ -52,10 +52,6 @@ namespace Twosies.States
             body = GetComponent<Rigidbody2D>();
             spriter = GetComponent<SpriteRenderer>();
             animator = GetComponent<Animator>();
-
-            
-
-            
         }
 
         private PlayerAttacher GetAttacher()
@@ -195,6 +191,11 @@ namespace Twosies.States
         public virtual void OnSoulExit()
         {
             ChangeState(null);
+
+            if(groundable && grounded)
+            {
+                body.velocity *= Vector2.up;
+            }
         }
 
         private void OnDrawGizmos()

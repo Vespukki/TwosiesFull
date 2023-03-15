@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Twosies.States;
 using UnityEngine;
+using Twosies.Player;
 
 namespace Twosies.Interactable.Possessable
 {
@@ -32,7 +33,7 @@ namespace Twosies.Interactable.Possessable
 
         protected virtual void Possess(InputStateMachine player)
         {
-
+            PlayerSoul.TransferSoul(player, stateMachine);
         }
 
     }

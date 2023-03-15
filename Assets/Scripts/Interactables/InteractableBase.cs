@@ -17,7 +17,7 @@ namespace Twosies.Interactable
 
         public virtual void Interact(InputStateMachine player)
         {
-
+            SetHighlight(false);
         }
 
         public virtual void SetHighlight(bool value)

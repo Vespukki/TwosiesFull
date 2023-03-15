@@ -1,6 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Twosies.Player;
+using Twosies;
+using Twosies.States.Player;
 
 namespace Twosies.States.HeavyArmor
 {
@@ -10,6 +13,11 @@ namespace Twosies.States.HeavyArmor
         public HeavyArmorMovementState(HeavyArmorStateMachine _sm) : base(_sm)
         {
             armorSM = _sm;
+        }
+
+        protected override void InteractInput()
+        {
+            base.InteractInput();
         }
     }
 }

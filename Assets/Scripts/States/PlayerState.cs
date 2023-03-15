@@ -2,7 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using Twosies.States;
+using Twosies.States.Player;
+using Twosies.Player;
 
 namespace Twosies.States
 {
@@ -55,9 +56,18 @@ namespace Twosies.States
 
         protected virtual void InteractInput()
         {
-            if (canInteract && inputSM.targetedInteractable != null)
+            if(inputSM.canInteract)
             {
-                inputSM.targetedInteractable.Interact(inputSM);
+                if (canInteract && inputSM.targetedInteractable != null)
+                {
+                    inputSM.targetedInteractable.Interact(inputSM);
+                }
+            }
+            else
+            {
+                PlayerStateMachine newPlayer = GameManager.instance.SpawnPlayer(inputSM.transform.position);
+
+                PlayerSoul.TransferSoul(inputSM, newPlayer);
             }
         }
 

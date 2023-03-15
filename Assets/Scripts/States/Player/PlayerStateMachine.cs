@@ -8,9 +8,11 @@ namespace Twosies.States.Player
 {
     public class PlayerStateMachine : InputStateMachine
     {
-        protected override void Start()
+        protected override void Awake()
         {
-            base.Start();
+            base.Awake();
+
+            canInteract = true;
         }
 
         public override void OnSoulEnter(PlayerSoul newSoul)
@@ -19,6 +21,11 @@ namespace Twosies.States.Player
             ChangeState(new PlayerWalkingState(this));
         }
 
+        public override void OnSoulExit()
+        {
+            base.OnSoulExit();
+            Destroy(gameObject);
+        }
 
         protected override void Update()
         {
