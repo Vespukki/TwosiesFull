@@ -16,7 +16,7 @@ namespace Twosies.Player
         public static PlayerSoul instance;
         [SerializeField] private float soulTransferTime;
 
-        private Vector2 initialSoulPosition;
+        //private Vector2 initialSoulPosition;
 
         private void Awake()
         {
@@ -60,7 +60,7 @@ namespace Twosies.Player
             PlayerSoul soul = prev.soul;
             soul.SetVisual(true);
 
-            soul.initialSoulPosition = prev.transform.position;
+            //soul.initialSoulPosition = prev.transform.position;
 
             soul.transform.parent = target.transform;
             prev.OnSoulExit();

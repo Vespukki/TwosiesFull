@@ -1,0 +1,12 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <Style src="project://database/Assets/Scenic/ScenicEditor.uss?fileID=7433441132597879392&amp;guid=1edaecc88d49bf748bfd78e20518fa32&amp;type=3#ScenicEditor" />
+    <Scenic.SplitView fixed-pane-initial-dimension="300" name="SplitView" style="background-color: rgb(83, 84, 87); max-height: none; min-width: 100px; min-height: 100px; height: 1000px;">
+        <ui:VisualElement name="left-panel">
+            <Scenic.ScenicEditorView focusable="true" style="flex-grow: 1; width: auto;" />
+        </ui:VisualElement>
+        <ui:VisualElement name="right-panel" style="width: -238px;">
+            <ui:Label text="Inspector" display-tooltip-when-elided="true" name="inspector-label" />
+            <Scenic.InspectorView name="InspectorView" style="height: 656px;" />
+        </ui:VisualElement>
+    </Scenic.SplitView>
+</ui:UXML>
