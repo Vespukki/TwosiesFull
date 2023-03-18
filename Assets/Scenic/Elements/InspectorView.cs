@@ -25,7 +25,7 @@ namespace Scenic
             UnityEngine.Object.DestroyImmediate(editor);
 
             editor = Editor.CreateEditor(nodeView.node);
-            IMGUIContainer container = new IMGUIContainer(() => { editor.OnInspectorGUI(); });
+            IMGUIContainer container = new(() => { editor.OnInspectorGUI(); });
             Add(container);
         }
     }

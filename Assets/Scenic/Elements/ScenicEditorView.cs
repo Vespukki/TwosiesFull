@@ -67,14 +67,12 @@ namespace Scenic
             {
                 graphViewChange.elementsToRemove.ForEach(elem =>
                 {
-                    NodeView nodeView = elem as NodeView;
-                    if(nodeView != null)
+                    if (elem is NodeView nodeView)
                     {
                         web.DeleteNode(nodeView.node);
                     }
 
-                    Edge edge = elem as Edge;
-                    if(edge != null)
+                    if (elem is Edge edge)
                     {
                         NodeView aView = edge.output.node as NodeView;
                         NodeView bView = edge.input.node as NodeView;
@@ -102,18 +100,23 @@ namespace Scenic
             //base.BuildContextualMenu(evt);
             {
                 var types = TypeCache.GetTypesDerivedFrom<Node>();
-                evt.menu.AppendAction($"[Node] node", (a) => CreateNode(typeof(Node)));
+
+                Vector2 pos = evt.mousePosition;
+
+                evt.menu.AppendAction($"[Node] node", (a) => CreateNode(typeof(Node), pos));
                 foreach (var type in types)
                 {
-                    evt.menu.AppendAction($"[{type.BaseType.Name}] {type.Name}", (a) => CreateNode(type));
+                    evt.menu.AppendAction($"[{type.BaseType.Name}] {type.Name}", (a) => CreateNode(type, pos));
                 }
 
             }
         }
 
-        private void CreateNode(Type type)
+        private void CreateNode(Type type, Vector2 position)
         {
             Node node = web.CreateNode(type);
+            node.position = position;
+
             CreateNodeView(node);
         }
 
