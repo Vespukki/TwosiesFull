@@ -33,25 +33,6 @@ namespace Scenic
             AssetDatabase.SaveAssets();
         }
 
-        /// <summary>
-        /// creates connection to b on a
-        /// </summary>
-        public void AddConnection(Node a, Node b)
-        {
-            a.connections.Add(b);
-        }
-
-        /// <summary>
-        /// removes connection to b from a
-        /// </summary>
-        public void RemoveConnection(Node a, Node b)
-        {
-            a.connections.Remove(b);
-        }
-
-        public List<Node> GetConnections(Node node)
-        {
-            return node.connections;
-        }
+       
     }
 }

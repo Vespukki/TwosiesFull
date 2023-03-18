@@ -48,17 +48,40 @@ namespace Scenic
             //creates edges
             web.nodes.ForEach(n =>
             {
-                var connected = web.GetConnections(n);
-                connected.ForEach(c =>
+                var connected = n.GetConnections();
+
+                foreach(var pair in connected)
                 {
+                    Edge edge = pair.Key.portGroup.output.port.ConnectTo(pair.Value.portGroup.input.port);
+                    AddElement(edge);
+
+/*
                     NodeView aView = FindNodeView(n);
                     NodeView bView = FindNodeView(c);
 
+
                     Edge edge = aView.portGroup.output.ConnectTo(bView.portGroup.input);
-                    AddElement(edge);
-                });
+                    AddElement(edge);*/
+                }
 
             });
+        }
+
+        public static void DeleteEdge(DoorEdge edge)
+        {
+            NodeView aView = edge.output.node as NodeView;
+            NodeView bView = edge.input.node as NodeView;
+
+            if (aView == null)
+            {
+                Debug.Log("aview null");
+            }
+            if (bView == null)
+            {
+                Debug.Log("bview null");
+            }
+
+            aView.node.RemoveConnection(edge.door);
         }
 
         private GraphViewChange OnGraphViewChanged(GraphViewChange graphViewChange)
@@ -67,22 +90,19 @@ namespace Scenic
             {
                 graphViewChange.elementsToRemove.ForEach(elem =>
                 {
-                    NodeView nodeView = elem as NodeView;
-                    if(nodeView != null)
+                    if (elem is NodeView nodeView)
                     {
                         web.DeleteNode(nodeView.node);
                     }
 
-                    Edge edge = elem as Edge;
-                    if(edge != null)
+                    if (elem is Edge edge)
                     {
-                        NodeView aView = edge.output.node as NodeView;
-                        NodeView bView = edge.input.node as NodeView;
-
-                        web.RemoveConnection(aView.node, bView.node);
+                        DeleteEdge(edge);
                     }
                 });
             }
+
+            
 
             if (graphViewChange.edgesToCreate != null)
             {
@@ -90,7 +110,10 @@ namespace Scenic
                 {
                     NodeView aView = edge.output.node as NodeView;
                     NodeView bView = edge.input.node as NodeView;
-                    web.AddConnection(aView.node, bView.node);
+
+                    DoorPort input = (DoorPort)edge.input;
+                    DoorPort output = (DoorPort)edge.output;
+                    aView.node.AddConnection(input.door, output.door);
                 });
             }
 
