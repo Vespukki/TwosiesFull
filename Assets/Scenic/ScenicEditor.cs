@@ -36,6 +36,9 @@ namespace Scenic
 
             webView = root.Q<ScenicEditorView>();
             inspectorView = root.Q<InspectorView>();
+            webView.OnNodeSelected = OnNodeSelectionChanged;
+
+            OnSelectionChange();
         }
 
         private void OnSelectionChange()
@@ -46,6 +49,11 @@ namespace Scenic
             {
                 webView.PopulateView(web);
             }
+        }
+
+        void OnNodeSelectionChanged(NodeView nodeView)
+        {
+            inspectorView.UpdateSelection(nodeView);
         }
 
     }
