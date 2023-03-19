@@ -36,20 +36,30 @@ namespace Scenic
         /// <summary>
         /// creates connection to b on a
         /// </summary>
-        public void AddConnection(Node a, Node b)
+        public void AddConnection(Node node, DoorElement a, DoorElement b)
         {
-            a.connections.Add(b);
+            node.connections.Add(new(a.output,b.input));
+        } 
+        public void AddConnection(Node node, Connection connection)
+        {
+            node.connections.Add(connection);
         }
 
         /// <summary>
         /// removes connection to b from a
         /// </summary>
-        public void RemoveConnection(Node a, Node b)
+        public void RemoveConnection(Node node, DoorElement a, DoorElement b)
         {
-            a.connections.Remove(b);
+            node.connections.Remove(new(a.output,b.input));
         }
 
-        public List<Node> GetConnections(Node node)
+        public void RemoveConnection(Node node, Connection connection)
+        {
+            node.connections.Remove(connection);
+
+        }
+
+        public List<Connection> GetConnections(Node node)
         {
             return node.connections;
         }

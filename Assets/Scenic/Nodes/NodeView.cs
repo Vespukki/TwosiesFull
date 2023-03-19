@@ -10,7 +10,8 @@ namespace Scenic
     {
         public Action<NodeView> OnNodeSelected;
         public Node node;
-        public ScenePortGroup portGroup;
+
+        public List<DoorElement> doors = new();
         public NodeView(Node _node)
         {
             node = _node;
@@ -18,26 +19,20 @@ namespace Scenic
             viewDataKey = _node.guid;
             style.left = node.position.x;
             style.top = node.position.y;
+            style.backgroundColor = new(new Color(.4f, .4f, .4f, .8f));
 
             CreatePorts();
         }
 
         private void CreatePorts()
         {
-            portGroup.input = Port.Create<Edge>(Orientation.Horizontal, Direction.Input, Port.Capacity.Single, typeof(bool));
-            if (portGroup.input != null)
-            {
-                portGroup.input.portName = "";
-                inputContainer.Add(portGroup.input);
-            }
-
-            portGroup.output = Port.Create<Edge>(Orientation.Horizontal, Direction.Output, Port.Capacity.Single, typeof(bool));
-
-            if (portGroup.output != null)
-            {
-                portGroup.output.portName = "";
-                outputContainer.Add(portGroup.output);
-            }
+            DoorElement holder = new(this);
+            contentContainer.Add(holder);
+            doors.Add(holder);
+/*
+            DoorElement holder2 = new(this);
+            contentContainer.Add(holder2);
+            doors.Add(holder2);*/
         }
 
         public override void SetPosition(Rect newPos)

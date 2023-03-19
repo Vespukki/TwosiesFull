@@ -48,22 +48,23 @@ namespace Scenic
             //creates edges
             web.nodes.ForEach(n =>
             {
-                var connected = web.GetConnections(n);
-                connected.ForEach(c =>
+                n.connections.ForEach(c =>
                 {
-                    NodeView aView = FindNodeView(n);
-                    NodeView bView = FindNodeView(c);
+                    Debug.Log(c.a);
+                    Debug.Log(c.b);
+                    Edge edge = c.a.ConnectTo(c.b);
 
-                    Edge edge = aView.portGroup.output.ConnectTo(bView.portGroup.input);
-                    AddElement(edge);
+                    if(edge != null)
+                    {
+                        AddElement(edge);
+                    }
                 });
-
             });
         }
 
         private GraphViewChange OnGraphViewChanged(GraphViewChange graphViewChange)
         {
-            if(graphViewChange.elementsToRemove != null)
+            if (graphViewChange.elementsToRemove != null)
             {
                 graphViewChange.elementsToRemove.ForEach(elem =>
                 {
@@ -74,10 +75,19 @@ namespace Scenic
 
                     if (elem is Edge edge)
                     {
-                        NodeView aView = edge.output.node as NodeView;
-                        NodeView bView = edge.input.node as NodeView;
 
-                        web.RemoveConnection(aView.node, bView.node);
+                        NodeView aView = edge.output.node as NodeView;
+                        //NodeView bView = edge.input.node as NodeView;
+
+                        List<Connection> tempConnections = new(aView.node.connections);
+
+                        tempConnections.ForEach(c =>
+                        {
+                            if(c.a == edge.output && c.b == edge.input)
+                            {
+                                web.RemoveConnection(aView.node, c);
+                            }
+                        });
                     }
                 });
             }
@@ -87,8 +97,19 @@ namespace Scenic
                 graphViewChange.edgesToCreate.ForEach(edge =>
                 {
                     NodeView aView = edge.output.node as NodeView;
-                    NodeView bView = edge.input.node as NodeView;
-                    web.AddConnection(aView.node, bView.node);
+
+                    //web.AddConnection(aView.node, new(edge.output, edge.input));
+
+                    aView.node.connections.ForEach(c =>
+                    {
+                        if(true)
+                        {
+                            if (c.a == edge.output && c.b == edge.input)
+                            {
+                                web.AddConnection(aView.node, c);
+                            }
+                        }
+                    });
                 });
             }
 
