@@ -4,8 +4,8 @@ using UnityEngine;
 
 namespace Scenic
 {
-    public class RoomNode : Node
+    public class DoorNode : Node
     {
-
+        
     }
 }

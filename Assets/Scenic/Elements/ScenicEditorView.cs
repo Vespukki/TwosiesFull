@@ -43,7 +43,10 @@ namespace Scenic
             graphViewChanged += OnGraphViewChanged;
 
             //creates node views
-            web.nodes.ForEach(n => CreateNodeView(n));
+            web.nodes.ForEach(n => {
+                CreateNodeView(n);
+
+                });
 
             //creates edges
             web.nodes.ForEach(n =>
@@ -54,7 +57,7 @@ namespace Scenic
                     NodeView aView = FindNodeView(n);
                     NodeView bView = FindNodeView(c);
 
-                    Edge edge = aView.portGroup.output.ConnectTo(bView.portGroup.input);
+                    Edge edge = aView.output.ConnectTo(bView.input);
                     AddElement(edge);
                 });
 
@@ -133,6 +136,7 @@ namespace Scenic
             NodeView nodeView = new(node);
             nodeView.OnNodeSelected = OnNodeSelected;
             AddElement(nodeView);
+            nodeView.NodeUpdate();
         }
     }
 }

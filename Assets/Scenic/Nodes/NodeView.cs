@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor.Experimental.GraphView;
+using UnityEditor;
 
 namespace Scenic
 {
@@ -10,7 +11,8 @@ namespace Scenic
     {
         public Action<NodeView> OnNodeSelected;
         public Node node;
-        public ScenePortGroup portGroup;
+        public Port input;
+        public Port output;
         public NodeView(Node _node)
         {
             node = _node;
@@ -24,20 +26,30 @@ namespace Scenic
 
         private void CreatePorts()
         {
-            portGroup.input = Port.Create<Edge>(Orientation.Horizontal, Direction.Input, Port.Capacity.Single, typeof(bool));
-            if (portGroup.input != null)
+            input = Port.Create<Edge>(Orientation.Horizontal, Direction.Input, Port.Capacity.Single, typeof(bool));
+            if (input != null)
             {
-                portGroup.input.portName = "";
-                inputContainer.Add(portGroup.input);
+                input.portName = "";
+                inputContainer.Add(input);
             }
 
-            portGroup.output = Port.Create<Edge>(Orientation.Horizontal, Direction.Output, Port.Capacity.Single, typeof(bool));
+            output = Port.Create<Edge>(Orientation.Horizontal, Direction.Output, Port.Capacity.Single, typeof(bool));
 
-            if (portGroup.output != null)
+            if (output != null)
             {
-                portGroup.output.portName = "";
-                outputContainer.Add(portGroup.output);
+                output.portName = "";
+                outputContainer.Add(output);
             }
+        }
+
+        public void NodeUpdate()
+        {
+            node.name = node.doorName;
+            node.oldName = node.doorName;
+            string assetPath = AssetDatabase.GetAssetPath(node);
+            Debug.Log(assetPath);
+            AssetDatabase.RenameAsset(assetPath + "/" + node.oldName, node.doorName);
+            AssetDatabase.SaveAssets();
         }
 
         public override void SetPosition(Rect newPos)
@@ -55,11 +67,4 @@ namespace Scenic
         }
 
     }
-
-    public struct ScenePortGroup
-    {
-        public Port input;
-        public Port output;
-    }
-
 }

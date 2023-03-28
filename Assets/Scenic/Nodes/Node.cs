@@ -1,13 +1,20 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace Scenic
 {
-    public class Node : ScriptableObject
+    public abstract class Node : ScriptableObject
     {
+        public Action<Node> OnNodeUpdate;
+
         public string guid;
-        public List<Node> connections = new();
-        public Vector2 position;
+        [HideInInspector] public List<Node> connections = new();
+        [HideInInspector] public Vector2 position;
+
+        public string doorName;
+
+        [HideInInspector] public string oldName; 
     }
 }
