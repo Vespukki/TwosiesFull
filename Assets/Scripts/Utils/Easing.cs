@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -46,7 +47,7 @@ namespace Twosies.Utils
         /// only works if camera has image as a child
         /// </summary>
         /// <returns></returns>
-        public static IEnumerator ScreenFadeOut()
+        public static async Task ScreenFadeOut()
         {
             float alpha = 0;
             Image image = Camera.main.GetComponentInChildren<Image>();
@@ -54,7 +55,7 @@ namespace Twosies.Utils
             {
                 image.color = new Color(image.color.r, image.color.g, image.color.b, SmoothStop3(alpha));
                 alpha += fadeRate;
-                yield return null;
+                await Task.Yield();
             }
         }
 
@@ -62,7 +63,7 @@ namespace Twosies.Utils
         /// only works if camera has image as a child
         /// </summary>
         /// <returns></returns>
-        public static IEnumerator ScreenFadeIn()
+        public static async Task ScreenFadeIn()
         {
             float alpha = 1;
             Image image = Camera.main.GetComponentInChildren<Image>();
@@ -70,7 +71,7 @@ namespace Twosies.Utils
             {
                 image.color = new Color(image.color.r, image.color.g, image.color.b, SmoothStart3(alpha));
                 alpha -= fadeRate;
-                yield return null;
+                await Task.Yield();
             }
         }
 

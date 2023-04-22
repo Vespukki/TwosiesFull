@@ -6,7 +6,6 @@ using Twosies.Player.Movement;
 using Twosies.Physics;
 using Twosies.Interactable;
 using Twosies.Player;
-using Twosies.Interactable.Possessable;
 
 namespace Twosies.States
 {
@@ -23,15 +22,29 @@ namespace Twosies.States
 
         public PlayerStats stats;
         [HideInInspector] public bool grounded;
+        [HideInInspector] public bool leftWalled;
+        [HideInInspector] public bool rightWalled;
 
-        [SerializeField] Transform groundedBoxPoint;
+
+        [SerializeField] private Vector2 _groundedBoxCenter;
+        [SerializeField] private Vector2 _leftWallBoxCenter;
+        [SerializeField] private Vector2 _rightWallBoxCenter;
+        Vector2 groundedBoxPoint { get { return (Vector2)transform.position + _groundedBoxCenter; } }
+        Vector2 leftWallBoxPoint { get { return (Vector2)transform.position + _leftWallBoxCenter; } }
+        Vector2 rightWallBoxPoint { get { return (Vector2)transform.position + _rightWallBoxCenter; } }
+
+
         [SerializeField] Vector2 groundedBoxSize;
+        [SerializeField] Vector2 leftWallBoxSize;
+        [SerializeField] Vector2 rightWallBoxSize;
         [SerializeField] Vector2 interactBoxSize;
 
         [SerializeField] ContactFilter2D groundContactFilter;
         [SerializeField] ContactFilter2D interactContactFilter;
 
         [HideInInspector] internal List<Collider2D> grounders = new();
+        [HideInInspector] internal List<Collider2D> leftWallers = new();
+        [HideInInspector] internal List<Collider2D> rightWallers = new();
 
         [HideInInspector] internal List<IJumpModifier> jumpModifiers = new();
 
@@ -74,6 +87,8 @@ namespace Twosies.States
                 GroundedCheck();
             }
 
+            WallCheck();
+
             spriter.flipX = facingRight;
         }
 
@@ -86,6 +101,11 @@ namespace Twosies.States
                 {
                     ChangeInteractable();
                 }
+            }
+
+            if(soul == null)
+            {
+                SoullessFixedUpdate();
             }
         }
 
@@ -148,9 +168,17 @@ namespace Twosies.States
 
         private void GroundedCheck()
         {
-            grounders = GetContactsFromBox(groundedBoxPoint.position, groundedBoxSize, groundContactFilter);
-
+            grounders = GetContactsFromBox(groundedBoxPoint, groundedBoxSize, groundContactFilter);
             grounded = (grounders.Count > 0);
+        }
+
+        private void WallCheck()
+        {
+            leftWallers = GetContactsFromBox(leftWallBoxPoint, leftWallBoxSize, groundContactFilter);
+            leftWalled = (leftWallers.Count > 0);
+
+            rightWallers = GetContactsFromBox(rightWallBoxPoint, rightWallBoxSize, groundContactFilter);
+            rightWalled = (rightWallers.Count > 0);
         }
 
         private List<Collider2D> GetContactsFromBox(Vector2 position, Vector2 boxSize, ContactFilter2D contactFilter)
@@ -187,6 +215,13 @@ namespace Twosies.States
                 input.actions.FindAction("Interact").started += ((InputAction.CallbackContext c) => OnInteract?.Invoke());
             }
         }
+        /// <summary>
+        /// called every fixed frame when soul == null;
+        /// </summary>
+        public virtual void SoullessFixedUpdate()
+        {
+
+        }
 
         public virtual void OnSoulExit()
         {
@@ -200,10 +235,20 @@ namespace Twosies.States
 
         private void OnDrawGizmos()
         {
-            if(groundedBoxPoint != null && groundedBoxSize.x != 0 && groundedBoxSize.y != 0)
+            if(groundedBoxSize.x != 0 && groundedBoxSize.y != 0)
             {
                 Gizmos.color = Color.grey;
-                Gizmos.DrawWireCube(groundedBoxPoint.position, groundedBoxSize);
+                Gizmos.DrawWireCube(groundedBoxPoint, groundedBoxSize);
+            }
+            if(leftWallBoxSize.x != 0 && leftWallBoxSize.y != 0)
+            {
+                Gizmos.color = Color.gray;
+                Gizmos.DrawWireCube(leftWallBoxPoint, leftWallBoxSize);
+            }
+            if(rightWallBoxSize.x != 0 && rightWallBoxSize.y != 0)
+            {
+                Gizmos.color = Color.grey;
+                Gizmos.DrawWireCube(rightWallBoxPoint, rightWallBoxSize);
             }
             if(interactBoxSize.x != 0 && interactBoxSize.y != 0)
             {

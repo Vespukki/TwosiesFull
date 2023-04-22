@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68964e4c9741bdf499fb7ff1c2f348a5, type: 3}
+  m_Name: LeftDoor
+  m_EditorClassIdentifier: 
+  _scene:
+    m_SceneAsset: {fileID: 102900000, guid: a02f6e0f4029b1c489870b98bd184984, type: 3}
+    m_SceneName: TestScene
+  _position: {x: 1.02, y: -13.62}

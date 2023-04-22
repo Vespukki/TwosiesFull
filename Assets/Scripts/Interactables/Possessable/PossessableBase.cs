@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Twosies.States;
+using Twosies.States.Player;
 using UnityEngine;
 using Twosies.Player;
 
@@ -24,14 +25,14 @@ namespace Twosies.Interactable.Possessable
             stateMachine = GetComponent<InputStateMachine>();
         }
 
-        public override void Interact(InputStateMachine player)
+        public override void Interact(PlayerStateMachine player)
         {
             base.Interact(player);
 
             Possess(player);
         }
 
-        protected virtual void Possess(InputStateMachine player)
+        protected virtual void Possess(PlayerStateMachine player)
         {
             PlayerSoul.TransferSoul(player, stateMachine);
         }

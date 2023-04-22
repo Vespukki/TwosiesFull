@@ -14,10 +14,5 @@ namespace Twosies.States.HeavyArmor
         {
             armorSM = _sm;
         }
-
-        protected override void InteractInput()
-        {
-            base.InteractInput();
-        }
     }
 }

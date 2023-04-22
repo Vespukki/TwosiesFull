@@ -15,6 +15,12 @@ namespace Twosies.States
         protected SpriteRenderer spriter;
         protected Animator animator;
 
+        protected InputAction moveAction;
+        protected InputAction jumpAction;
+        protected InputAction interactAction;
+        protected bool canTurn = true;
+
+        protected bool canInteract = true;
 
         public PlayerState(InputStateMachine _sm) : base(_sm)
         {
@@ -25,13 +31,12 @@ namespace Twosies.States
             animator = inputSM.animator;
 
             moveAction = input.actions.FindAction("Move");
+            jumpAction = input.actions.FindAction("Jump");
+            interactAction = input.actions.FindAction("Interact");
 
         }
 
-        protected InputAction moveAction;
-        protected bool canTurn = true;
-
-        protected bool canInteract = true;
+        
 
         protected virtual void SetGravity()
         {
@@ -42,35 +47,25 @@ namespace Twosies.States
         {
             base.StateEnter();
             SetGravity();
-            InputStateMachine.OnJump += JumpInput;
             InputStateMachine.OnInteract += InteractInput;
+            InputStateMachine.OnJump += JumpInput;
         }
 
         public override void StateExit()
         {
             base.StateExit();
 
-            InputStateMachine.OnJump -= JumpInput;
             InputStateMachine.OnInteract -= InteractInput;
+            InputStateMachine.OnJump -= JumpInput;
         }
+
 
         protected virtual void InteractInput()
         {
-            if(inputSM.canInteract)
-            {
-                if (canInteract && inputSM.targetedInteractable != null)
-                {
-                    inputSM.targetedInteractable.Interact(inputSM);
-                }
-            }
-            else
-            {
                 PlayerStateMachine newPlayer = GameManager.instance.SpawnPlayer(inputSM.transform.position);
 
                 PlayerSoul.TransferSoul(inputSM, newPlayer);
-            }
         }
-
 
 
         protected virtual void JumpInput()

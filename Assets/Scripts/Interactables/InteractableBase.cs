@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Twosies.States;
+using Twosies.States.Player;
 using TMPro;
 
 namespace Twosies.Interactable
@@ -15,7 +15,7 @@ namespace Twosies.Interactable
 
         [SerializeField] TextMeshPro hightlightText;
 
-        public virtual void Interact(InputStateMachine player)
+        public virtual void Interact(PlayerStateMachine player)
         {
             SetHighlight(false);
         }
