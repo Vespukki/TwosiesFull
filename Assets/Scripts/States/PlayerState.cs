@@ -38,15 +38,11 @@ namespace Twosies.States
 
         
 
-        protected virtual void SetGravity()
-        {
-            body.gravityScale = (2 * inputSM.stats.JumpHeight) / (inputSM.stats.JumpTime * inputSM.stats.JumpTime);
-        }
+        
 
         public override void StateEnter()
         {
             base.StateEnter();
-            SetGravity();
             InputStateMachine.OnInteract += InteractInput;
             InputStateMachine.OnJump += JumpInput;
         }

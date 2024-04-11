@@ -37,7 +37,7 @@ namespace Twosies.Player
         private void Update()
         {
             //float t = Vector2.Distance(transform.position, transform.parent.position) / Vector2.Distance(transform.position, transform.parent.position);
-            Vector2 newPos = Vector2.MoveTowards(transform.position, transform.parent.position, .075f);
+            Vector2 newPos = Vector2.MoveTowards(transform.position, transform.parent.position, soulTransferTime);
 
             if (newPos == (Vector2)transform.parent.position)
             {

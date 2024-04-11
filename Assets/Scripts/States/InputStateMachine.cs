@@ -160,10 +160,16 @@ namespace Twosies.States
         protected override void Start()
         {
             base.Start();
+            SetGravity();
             if(soul != null)
             {
                 OnSoulEnter(soul);
             }
+        }
+
+        private void SetGravity()
+        {
+            body.gravityScale = (2 * stats.JumpHeight) / (stats.JumpTime * stats.JumpTime);
         }
 
         private void GroundedCheck()

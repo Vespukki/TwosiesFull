@@ -309,8 +309,14 @@ MonoBehaviour:
   animator: {fileID: 0}
   stats: {fileID: 11400000, guid: 002478d1822d2a94da3c88f9b589751e, type: 2}
   grounded: 0
+  leftWalled: 0
+  rightWalled: 0
   _groundedBoxCenter: {x: 0.12, y: -0.48}
+  _leftWallBoxCenter: {x: 0, y: 0}
+  _rightWallBoxCenter: {x: 0, y: 0}
   groundedBoxSize: {x: 0.7, y: 0.15}
+  leftWallBoxSize: {x: 0, y: 0}
+  rightWallBoxSize: {x: 0, y: 0}
   interactBoxSize: {x: 5, y: 3}
   groundContactFilter:
     useTriggers: 0
@@ -540,7 +546,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   input: {fileID: 0}
-  soulTransferTime: 1
+  soulTransferTime: 0.2
 --- !u!212 &8331207657135634190
 SpriteRenderer:
   m_ObjectHideFlags: 0
